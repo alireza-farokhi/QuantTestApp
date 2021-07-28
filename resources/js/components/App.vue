@@ -162,6 +162,8 @@ export default {
 
             localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
 
+            window.location.href = response.data.redirectUrl
+
           })
           .catch((e) => {
             console.log(e);
@@ -176,6 +178,7 @@ export default {
             password: this.loginPassword,
           })
           .then((response) => {
+              console.log(response)
             if (response.data.error) {
               this.loginErrors = response.data.error_description;
               this.loginPassword = "";
@@ -185,6 +188,9 @@ export default {
               "Bearer " + response.data.access_token;
 
             localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
+
+        // 0window.location.href = response.data.redirectUrl
+        location.reload();
 
           })
           .catch((error) => {

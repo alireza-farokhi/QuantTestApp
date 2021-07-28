@@ -6,11 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
         $request->request->add([
             'username' => $request->email,
             'password' => $request->password,
@@ -26,8 +28,17 @@ class AuthController extends Controller
         );
 
         $response = Route::dispatch($proxy);
+        $decondedResponse = json_decode($response->getContent());
 
-        return $response->getContent();
+        if(isset($decondedResponse->access_token)){
+            Session::put('access_token',$decondedResponse->access_token);
+        
+        }
+
+        return [
+            'data' => $response->getContent(),
+            'redirectUrl' => route('search')
+        ];
     }
 
     public function register(Request $request)
@@ -44,11 +55,16 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $accessToken = $user->createToken('User Access Token')->accessToken;
+
+        Session::put('access_token',$accessToken);
+
 
         return response()->json([
             'data' => [
                 'user' => $user,
-                'access_token' => $user->createToken('User Access Token')->accessToken
+                'access_token' => $accessToken,
+                'redirectUrl' => route('search')
             ],
         ]);
     }

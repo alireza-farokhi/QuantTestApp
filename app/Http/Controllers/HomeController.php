@@ -3,26 +3,31 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+
+        if(request()->session()->has('access_token')){
+            return redirect('search');
+        }
+        return view('welcome');
+
+    }
+
+    public function search(Request $request)
+    {
+        
+        if(!request()->session()->has('access_token')){
+            return redirect('/');
+        }
+        return view('search');
     }
 }
