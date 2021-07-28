@@ -178,19 +178,19 @@ export default {
             password: this.loginPassword,
           })
           .then((response) => {
-              console.log(response)
+
             if (response.data.error) {
               this.loginErrors = response.data.error_description;
               this.loginPassword = "";
               this.loginEmail = "";
             }
             axios.defaults.headers.common["Authorization"] =
-              "Bearer " + response.data.access_token;
+              "Bearer " + JSON.parse(response.data.data).access_token;
 
-            localStorage.setItem("access_token", JSON.stringify(response.data.access_token));
+            localStorage.setItem("access_token", JSON.stringify(JSON.parse(response.data.data).access_token));
 
-        // 0window.location.href = response.data.redirectUrl
-        location.reload();
+            window.location.href = response.data.redirectUrl
+
 
           })
           .catch((error) => {

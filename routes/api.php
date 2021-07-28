@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['cors', 'json.response'])->group(function () {
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::middleware('auth:api')->get('/currencies', 'App\Http\Controllers\AuthController@currencies');
+    Route::middleware('auth:api')->get('/markets', 'App\Http\Controllers\AuthController@markets');
+
 
     Route::post('/login', 'App\Http\Controllers\AuthController@login');
     Route::post('/register', 'App\Http\Controllers\AuthController@register');

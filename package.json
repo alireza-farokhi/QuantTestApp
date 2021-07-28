@@ -27,6 +27,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "nomics": "^0.5.7",
         "vee-validate": "^4.4.7",
         "vuetify": "^2.5.7",
         "vuetify-loader": "^1.7.2"

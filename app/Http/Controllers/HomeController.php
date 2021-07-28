@@ -24,7 +24,7 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        
+
         if(!request()->session()->has('access_token')){
             return redirect('/');
         }
